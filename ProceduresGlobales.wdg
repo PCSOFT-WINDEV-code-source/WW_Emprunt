@@ -1,0 +1,291 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : ProceduresGlobales
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1219aa9e007dd13a
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  internal_properties : CAAAAAgAAADkXYMy5S93AjgDl/7Qq+qrs9dE249FVD9ixWYP4YMoVDR2FWyrAY6SWn2kBTjtkEPyk807WeJ9UlswCjq8vFfgRFymvABJjUw=
+  type_code : 31
+  p_codes : []
+  procedures :
+   -
+     name : FinEchéancier
+     internal_properties : CAAAAAgAAADVr7b4l8/hEBud9YEj3g/veRkfUDtmvl3+OlZl/O0qGKF444ZzQ2gTFHCg+RVQHjRpdM+hvTU/y9i2tFZpWKFBZc0AJTDdgjCfqmrMQKBfLkTgTh9jNQA4PHm16ugiPe84xctSXAi/jVNvdOONoWU3LZWpfr62V0wvlRGGD+nVv69Z//TvZP3oeXkIFoijcsh/y1D0CZmjZeM7brNfSmOYchvDIZgMKq1dOhqdfx2vHl2qRg==
+     procedure_id : 1304281465015103518
+     type_code : 15
+     code : |1-
+      // Syntaxe :
+      //FinEchéancier (<nCapital>, <nMensualités>, <nTaux>, <nNbPériode>, <sDatePremièreEchéance>)
+      //
+      // Paramètres :
+      //	nCapital : Montant du capital
+      //	nMensualités : Montant des mensualités
+      //	nTaux : Taux du prêt
+      //	nNbPériode : Nombre de périodes
+      //	sDatePremièreEchéance : Date de la première échéance
+      // Valeur de retour :
+      // 	Aucune
+      
+      Procédure FinEchéancier(nCapital, nMensualités, nTaux, nNbPériode, sDatePremièreEchéance)
+      
+      extern TABLE_ECHEANCIER_MENSUEL
+      extern TABLE_ECHEANCIER_ANNUEL
+      
+      i est un entier
+      nMontantIntérêtsMensuel est un monetaire
+      nMontantIntérêtsAnnuel est un monetaire
+      nMontantIntérêtsCumulés est un monetaire
+      nMontantCapitalMensuel est un monétaire
+      nMontantCapitalAnnuel est un monétaire
+      nResteDû est un monétaire
+      dDateEchéance est une date
+      
+      TableSupprimeTout(TABLE_ECHEANCIER_MENSUEL)
+      TableSupprimeTout(TABLE_ECHEANCIER_ANNUEL)
+      
+      // Première échéance
+      dDateEchéance = sDatePremièreEchéance
+      
+      // Montant total à payer
+      nResteDû = nCapital
+      
+      //Remplissage de l'échéancier
+      pour i=1 _à_ nNbPériode
+      	
+      	// Calcul des interêts pour la période
+      	nMontantIntérêtsMensuel = FinInteretPeriode(nCapital, nTaux, i, nNbPériode)
+      	nMontantIntérêtsAnnuel += nMontantIntérêtsMensuel
+      	
+      	// Intérêts cumulés
+      	nMontantIntérêtsCumulés+=nMontantIntérêtsMensuel
+      	
+      	// Calcul du capital pour la période
+      	nMontantCapitalMensuel = nMensualités + nMontantIntérêtsMensuel
+      	nMontantCapitalAnnuel += nMensualités + nMontantIntérêtsMensuel
+      	
+      	// Reste dû
+      	nResteDû -= nMontantCapitalMensuel
+      	
+      	//Remplissage de la table mensuelle
+      	// les arrondis sont nécessaires pour l'export vers Excel
+      	tableajouteligne(TABLE_ECHEANCIER_MENSUEL, i, dDateEchéance, arrondi(nMensualités), arrondi(-nMontantIntérêtsMensuel), arrondi(nMontantCapitalMensuel), arrondi(nResteDû), arrondi(-nMontantIntérêtsCumulés))
+      	
+      	si modulo(i,12)=0 ALORS
+      		//Remplissage de la table annuelle
+      		// les arrondis sont nécessaires pour l'export vers Excel
+      		tableajouteligne(TABLE_ECHEANCIER_ANNUEL, i/12, dDateEchéance, arrondi(nMensualités*12), arrondi(-nMontantIntérêtsAnnuel), arrondi(nMontantCapitalAnnuel), arrondi(nResteDû), arrondi(-nMontantIntérêtsCumulés))
+      		nMontantIntérêtsAnnuel=0
+      		nMontantCapitalAnnuel=0
+      	FIN
+      	
+      	dDateEchéance..mois++
+      FIN
+     type : 458752
+   -
+     name : TraceSecteur
+     procedure_id : 1304281555209569181
+     type_code : 15
+     code : |1+
+      // Syntaxe :
+      //TraceSecteur (<nCapital>, <nInterêts>, <ChampGrapheSecteur> est champ)
+      //
+      // Paramètres :
+      //	nCapital : Montant du capital
+      //	nInterêts : Montant des intérêts cumulés
+      //	ChampGrapheSecteur (champ) : Nom du champ graphe
+      // Valeur de retour :
+      // 	Aucune
+      
+      Procédure TraceSecteur(nCapital, nInterêts, ChampGrapheSecteur est un champ)
+      
+      // Supprime le contenu précédent
+      grSupprimeSérie(ChampGrapheSecteur)
+      
+      // Définition des couleurs des catégories
+      grCouleurSérie(ChampGrapheSecteur, 1, RVB(228, 182, 45))
+      grCouleurSérie(ChampGrapheSecteur, 2, RVB(205, 95, 74))
+      
+      // Masque d'affichage
+      grMasque(ChampGrapheSecteur,grMasqueValeur, "999 999 999 €")
+      grMasque(ChampGrapheSecteur,grMasquePourcentage, "999,9 %")
+      
+      // Angle de départ de la première part
+      grSecteurAngleDépart(ChampGrapheSecteur, 0)
+      
+      // Indice de la part à excentrer
+      grSecteurPartExcentrée(ChampGrapheSecteur, 1, 20)
+      
+      // Exemple de données
+      grEtiquetteCatégorie(ChampGrapheSecteur, 1, <§@1219a8ef00043d060000§>)
+      grAjouteDonnée(ChampGrapheSecteur, 1, nInterêts)
+      grEtiquetteCatégorie(ChampGrapheSecteur, 2, <§@1219a8ef00043d060001§>)
+      grAjouteDonnée(ChampGrapheSecteur, 1, nCapital)
+      
+      // Dessin du graphe
+      grDessine(ChampGrapheSecteur)
+     type : 458752
+   -
+     name : TraceCourbes
+     procedure_id : 1304281598159448749
+     type_code : 15
+     code : |1-
+      // Syntaxe :
+      //TraceCourbes (<sChampGraphe> est champ, <sChampTableEcheancier> est champ)
+      //
+      // Paramètres :
+      //	sChampGraphe (champ) : Nom du champ où dessiner le graphe
+      //	sChampTableEcheancier (champ) : Nom du champ table contenant l'échéancier
+      // Valeur de retour :
+      // 	Aucune
+      
+      Procédure TraceCourbes(sChampGraphe est un champ, sChampTableEcheancier est un champ)
+      
+      // Variables locales
+      i est un entier
+      
+      // Supprime le contenu précédent
+      grSupprimeSérie(sChampGraphe)
+      
+      // Masque d'affichage
+      grMasque(sChampGraphe,grMasqueValeur, "999 999 999 €")
+      
+      // Série n°1
+      // Couleur de la série
+      grCouleurSérie(sChampGraphe, 1, RVB(228, 182, 45))
+      
+      // Légende de la série
+      grEtiquetteSérie(sChampGraphe, 1, <§@1219a8ef00043d060000§>)
+      
+      // Ajout des données "intérêts"
+      pour i=1 _a_ TableOccurrence(sChampTableEcheancier)
+      	grEtiquetteCatégorie(sChampGraphe, i, DateVersChaine(sChampTableEcheancier.COL_DATE_ECHEANCE[i],"MM/AAAA"))
+      	grAjouteDonnée(sChampGraphe, 1, sChampTableEcheancier.COL_INTERET[i])
+      FIN
+      
+      // Série n°2
+      // Couleur de la série
+      grCouleurSérie(sChampGraphe, 2, RVB(205, 95, 74))
+      
+      // Légende de la série
+      grEtiquetteSérie(sChampGraphe, 2, <§@1219a8ef00043d060001§>)
+      
+      // Ajout des données "capital"
+      pour i=1 _a_ TableOccurrence(sChampTableEcheancier)
+      	grAjouteDonnée(sChampGraphe, 2, sChampTableEcheancier.COL_CAPITAL[i])
+      FIN
+      
+      // Dessin du graphe
+      grDessine(sChampGraphe)
+     type : 458752
+   -
+     name : FinIntérêtTotal
+     internal_properties : CAAAAAgAAADwyOoX1Ea8RoqFHhS00GtLPYp7offiezBuf/cvM49TOejrgj5Og5gVaNg6G3jZjwSvX3CeX6NE+uMzYMQv6cbhS/cTNIAGJ2iSSsMVt8k+wY/Kyl0KVDEEkE9fdofAXOVflvXuX1isNJSBYjFCd2LXkiwzvjfMuo2O3S1M7EMbMIZV0PPnoxv2tThyGweVbvgpYPyJ
+     procedure_id : 1304281671174106436
+     type_code : 15
+     code : |1-
+      // Syntaxe :
+      //[ <Résultat> = ] FinIntérêtTotal (<nCapital>, <nNbPériodes>, <nTaux>)
+      //
+      // Paramètres :
+      //	nCapital : <indiquez ici le rôle de nCapital>
+      //	nNbPériodes : <indiquez ici le rôle de nNbPériodes>
+      //	nTaux : <indiquez ici le rôle de nTaux>
+      // Valeur de retour :
+      // 	monétaire :     Montant total des intérêts
+      
+      Procédure FinIntérêtTotal(nCapital,nNbPériodes,nTaux)
+      
+      i est un entier
+      nMontantIntérêts est un monetaire
+      nMontantIntérêtsCumulés est un monetaire
+      dDateEchéance est une date
+      
+      //Remplissage de l'échéancier
+      pour i=1 _à_ nNbPériodes
+      	// Calcul des interêts pour la période
+      	nMontantIntérêts = FinInteretPeriode(nCapital, nTaux, i, nNbPériodes)
+      	// Intérêts cumulés
+      	nMontantIntérêtsCumulés+=nMontantIntérêts
+      	// Mois suivant
+      	dDateEchéance..mois++
+      FIN
+      
+      // Coût total du prêt
+      renvoyer nMontantIntérêtsCumulés
+     type : 458752
+   -
+     name : TraceCourbesPlacement
+     procedure_id : 1472501766184437446
+     type_code : 15
+     code : |1-
+      PROCEDURE TraceCourbesPlacement(sNomChampGraphe est un champ)
+      
+      i est un entier
+      
+      // Supprime le contenu précédent
+      grSupprimeSérie(sNomChampGraphe)
+      
+      // Masque d'affichage
+      grMasque(sNomChampGraphe,grMasqueValeur, "999 999 999 €")
+      
+      // Série n°1
+      // Couleur de la série
+      grCouleurSérie(sNomChampGraphe, 1, RVB(228, 182, 45))
+      
+      // Légende de la série
+      grEtiquetteSérie(sNomChampGraphe, 1, <§@1219a8ef00043d060002§>)
+      
+      // Afficher les abscisses quand il y a la place
+      grGraduation(sNomChampGraphe,-2000000000,grAbscisse)
+      
+      // Ajout des données "intérêts"
+      POUR i=1 _A_ TableOccurrence(PAGE_Placement.TABLE_PLACEMENT)
+      	grEtiquetteCatégorie(sNomChampGraphe, i, DateVersChaîne(PAGE_Placement.TABLE_PLACEMENT.COL_ECHEANCE[i],"MMM AAAA"))
+      	grAjouteDonnée(sNomChampGraphe, 1, PAGE_Placement.TABLE_PLACEMENT.COL_INTERETS_CUMULES[i])
+      FIN
+      
+      // Série n°2
+      // Couleur de la série
+      grCouleurSérie(sNomChampGraphe, 2, RVB(205, 95, 74))
+      
+      // Légende de la série
+      grEtiquetteSérie(sNomChampGraphe, 2, <§@1219a8ef00043d060001§>)
+      
+      // Ajout des données "capital"
+      POUR i=1 _A_ TableOccurrence(PAGE_Placement.TABLE_PLACEMENT)
+      	grAjouteDonnée(sNomChampGraphe, 2, PAGE_Placement.TABLE_PLACEMENT.COL_CAPITAL[i])
+      FIN
+      
+      // Dessin du graphe
+      grDessine(sNomChampGraphe)
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+resources :
+ string_res :
+  identifier : 0x1219a8ef00043d06
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      fr-FR : Intérêts
+     index : 0
+   -
+     text :
+      fr-FR : Capital
+     index : 1
+   -
+     text :
+      fr-FR : Intérêts
+     index : 2
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

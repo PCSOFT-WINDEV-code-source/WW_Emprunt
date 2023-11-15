@@ -1,0 +1,130 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WW_Emprunt
+ major_version : 28
+ minor_version : 0
+ type : 4097
+ description : WW_Emprunt
+ subtype : 0
+project :
+ identifier : 0x0
+ internal_properties : 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
+ configurations :
+  -
+    name : WW_Emprunt
+    internal_properties : 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
+    configuration_id : 2880079559253247958
+    type : 2
+    description : WW_Emprunt
+    generation_name : WW_Emprunt.wdl
+    version :
+     version : 1.00Aa
+     internal_generation_version : 1
+    language : 1
+    64bits : true
+ elements :
+  identifier : 0x4acaf8170078b6ef
+  elements :
+   -
+     name : ProceduresGlobales
+     identifier : 0x4219a8ef00003d06
+     internal_properties : CAAAAAgAAAAYdsDc65CYQwygOTCh/Mm6NqnFpQS3kxhygmEHkIKKXpJIr71uUtT7adPNK+vlnRP9BQ==
+     physical_name : .\ProceduresGlobales.wdg
+     type : 7
+   -
+     name : ProceduresGlobalesNavigateur
+     identifier : 0x4219a8ef00013e2f
+     internal_properties : CAAAAAgAAAA+JBYKuebO4e5OU86P0+uwDKnbgypU1/Gnvw7Ni3WncY9DrKCIeP6lx3FrVd0T7+ErKw==
+     physical_name : .\ProceduresGlobalesNavigateur.wwn
+     type : 65539
+   -
+     name : PAGE_Placement
+     identifier : 0x4219be50000bbdeb
+     internal_properties : CAAAAAgAAAAacMLG5aIKFdKyN6IzKRNYSGl379RXemqnxqrUV8vJF9EB1vYk5GIJe6UfmRnXoxX/Bw==
+     physical_name : .\PAGE_Placement.wwh
+     type : 65538
+   -
+     name : ETAT_Echeancier
+     identifier : 0x4219b5c900086f8d
+     internal_properties : CAAAAAgAAADasIKGJWJKVRLyd2JzalMYiJvHnxy+vayj9HNgYICcZIC+FTfkJKLJO+Xf2VmXY1W/Rw==
+     physical_name : .\ETAT_Echeancier.wde
+     type : 3
+   -
+     name : PAGE_Montant
+     identifier : 0x4219bbef000a74f7
+     internal_properties : CAAAAAgAAADWvD5iQT52ecaWq4bXT2PQBEFza+y3UxR3QklqMdE7PcNPQBwAwEZtn5kD/YV7B/nDQw==
+     physical_name : .\PAGE_Montant.wwh
+     type : 65538
+   -
+     name : ETAT_Placement
+     identifier : 0x4219b5af0007098f
+     internal_properties : CAAAAAgAAADdv2xjDHU6tcLouAggHLfipmS8c5xj1WESeHqsl0RJBkUBq7RWtPCDN6Iga84i3MdY
+     physical_name : .\ETAT_Placement.wde
+     type : 3
+   -
+     name : PAGE_Remboursement
+     identifier : 0x4219ab4900066bbb
+     internal_properties : CAAAAAgAAAAhHRkNuufP4O9PWNeAou6rN0butoHEvMRWvYAr7iRukrJSp6WPcfWayHJsVNwU7NwkLA==
+     physical_name : .\PAGE_Remboursement.wwh
+     type : 65538
+   -
+     name : PAGEMOD_Centre
+     identifier : 0x446ca6bc005a10a9
+     internal_properties : CAAAAAgAAACnkR0Jyvf3NJwiXWl0uLGtJvKwxN6Gid2k1uDfmrrJxqP6XJdNVLv4jhqVIg3tSrGi
+     physical_name : .\PAGEMOD_Centre.wwt
+     type : 65541
+  other_elements :
+   -
+     physical_name : .\Description.rtf
+   -
+     physical_name : .\Description.gif
+  net_assemblies : []
+  uwp_api : []
+  external_components : []
+  internal_components : []
+ common_generation_directory : true
+ wb_skin : 200 Willy
+ wb_color_palette : Phenix
+ languages :
+  - fr-FR
+ wd_style_sheet : .\WWEmprunt.sty
+ url_rewriting :
+  internal_properties : CAAAAAgAAADkPzcUdUUS7wCiun+MCjqYH70RJdzkSv/nRvXZ3ENdikMa6bcHtsAH
+ code_elements :
+  internal_properties : CAAAAAgAAACZgL0VjOMp79Q+viHoZgVptunRzyrPGTO4P1eUYj7wpmjCQEIeZ+MbH1fOuoZ4d5+Rw57KCdQFSbG7YHMydM4=
+  type_code : 0
+  p_codes :
+   -
+     code : |1-
+      
+     type : 196608
+   -
+     type : 196621
+   -
+     type : 196627
+     enabled : false
+  orphans :
+   -
+     name : WW_Emprunt
+     identifier : 0x4acaf8170083b7ab
+     code_elements :
+      type_code : 159
+      p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : WWEmprunt
+rad :
+ internal_properties : CAAAAAgAAABhIL0UXeZmxDJxY3Xy0Q==
+project_explorer :
+ explorer_type : project
+resources :
+ string_res :
+  identifier : 0x0
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text : {}
+     index : 0
+custom_note :
+ internal_properties : CAAAAAgAAAAd98VSJfHHqE3P0QHwrwdhn7ig8dWBR6valpUTgnAMTVXiDg==
